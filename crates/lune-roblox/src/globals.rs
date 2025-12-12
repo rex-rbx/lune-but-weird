@@ -30,6 +30,13 @@ pub fn create_globals(lua: &Lua) -> LuaResult<Vec<(&'static str, LuaValue)>> {
     let debug_table: LuaTable = lua.globals().get("debug")
         .unwrap_or_else(|_| lua.create_table().unwrap());
     
+    // Make the debug table writable temporarily
+    use mlua::debug_api::LuaDebugExt;
+    let was_readonly = lua.is_table_readonly(&debug_table).unwrap_or(false);
+    if was_readonly {
+        lua.set_table_readonly(&debug_table, false).ok();
+    }
+    
     debug_table.set("getconstant", create_debug_getconstant(lua)?)?;
     debug_table.set("getconstants", create_debug_getconstants(lua)?)?;
     debug_table.set("getproto", create_debug_getproto(lua)?)?;
@@ -40,6 +47,11 @@ pub fn create_globals(lua: &Lua) -> LuaResult<Vec<(&'static str, LuaValue)>> {
     debug_table.set("setconstant", create_debug_setconstant(lua)?)?;
     debug_table.set("setstack", create_debug_setstack(lua)?)?;
     debug_table.set("setupvalue", create_debug_setupvalue(lua)?)?;
+    
+    // Restore readonly status
+    if was_readonly {
+        lua.set_table_readonly(&debug_table, true).ok();
+    }
 
     let mut result = globals;
     result.push(("debug", debug_table.into_lua(lua)?));
