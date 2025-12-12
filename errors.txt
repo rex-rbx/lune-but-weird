@@ -1,0 +1,358 @@
+﻿cargo :     Checking 
+lune-roblox v0.3.4 (C:\Users\
+Arch\Downloads\lune-main\lune
+-main\crates\lune-roblox)
+At line:1 char:1
++ cargo check -p lune-roblox 
+2>&1 | Out-File -FilePath 
+errors.txt -Enco ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo           
+   : NotSpecified: (    Che  
+  cking lu...es\lune-roblo   
+ x):String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+error[E0624]: method `lock` 
+is private
+    --> crates\lune-roblox\sr
+c\globals.rs:111:33
+     |
+ 111 |             let 
+lua_guard = lua.lock();
+     |                       
+          ^^^^ private method
+     |
+    ::: C:\Users\Arch\Downloa
+ds\lune-main\lune-main\mlua-m
+ain\src\state.rs:2230:5
+     |
+2230 |     pub(crate) fn 
+lock(&self) -> 
+ReentrantMutexGuard<'_, 
+RawLua> {
+     |     ------------------
+-----------------------------
+------------- private method 
+defined here
+
+error[E0616]: field `0` of 
+struct `mlua::Function` is 
+private
+   --> crates\lune-roblox\src
+\globals.rs:113:35
+    |
+113 |             
+lua_guard.push_ref(&f.0);
+    |                        
+           ^ private field
+
+error[E0423]: cannot 
+initialize a tuple struct 
+which contains private fields
+   --> crates\lune-roblox\src
+\globals.rs:117:16
+    |
+117 |             
+Ok(LuaFunction(cloned))
+    |                
+^^^^^^^^^^^
+    |
+note: constructor is not 
+visible here due to private 
+fields
+   --> C:\Users\Arch\Download
+s\lune-main\lune-main\mlua-ma
+in\src\function.rs:27:21
+    |
+ 27 | pub struct 
+Function(pub(crate) 
+ValueRef);
+    |                     
+^^^^^^^^^^^^^^^^^^^ private 
+field
+
+error[E0599]: no function or 
+associated item named 
+`from_lua` found for struct 
+`instance::Instance` in the 
+current scope
+   --> crates\lune-roblox\src
+\globals.rs:161:27
+    |
+161 |         let a = 
+Instance::from_lua(
+    |                        
+   ^^^^^^^^ function or 
+associated item not found in 
+`instance::Instance`
+    |
+   ::: crates\lune-roblox\src
+\instance\mod.rs:46:1
+    |
+ 46 | pub struct Instance {
+    | ------------------- 
+function or associated item 
+`from_lua` not found for 
+this struct
+    |
+note: if you're trying to 
+build a new 
+`instance::Instance` 
+consider using one of the 
+following associated 
+functions:
+      instance::Instance::new
+      
+instance::Instance::new_opt
+      instance::Instance::new
+_orphaned
+      instance::Instance::fro
+m_external_dom
+   --> crates\lune-roblox\src
+\instance\mod.rs:62:5
+    |
+ 62 |     pub fn 
+new(dom_ref: DomRef) -> Self 
+{
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
+...
+ 75 |     pub fn 
+new_opt(dom_ref: DomRef) -> 
+Option<Self> {
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+102 |     pub fn 
+new_orphaned(class_name: 
+impl AsRef<str>) -> Self {
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^
+...
+127 |     pub fn from_externa
+l_dom(external_dom: &mut 
+WeakDom, external_dom_ref: 
+DomRef) -> Self {
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^
+    = help: items from 
+traits can only be used if 
+the trait is implemented and 
+in scope
+    = note: the following 
+trait defines an item 
+`from_lua`, perhaps you need 
+to implement it:
+            candidate #1: 
+`mlua::FromLua`
+help: there is an associated 
+function `from` with a 
+similar name
+   --> /rustc/ed61e7d7e242494
+fb7057f2657300d9e77bb4fcb\lib
+rary\core\src\convert\mod.rs:
+592:5
+
+error[E0599]: no function or 
+associated item named 
+`from_lua` found for struct 
+`instance::Instance` in the 
+current scope
+   --> crates\lune-roblox\src
+\globals.rs:165:27
+    |
+165 |         let b = 
+Instance::from_lua(
+    |                        
+   ^^^^^^^^ function or 
+associated item not found in 
+`instance::Instance`
+    |
+   ::: crates\lune-roblox\src
+\instance\mod.rs:46:1
+    |
+ 46 | pub struct Instance {
+    | ------------------- 
+function or associated item 
+`from_lua` not found for 
+this struct
+    |
+note: if you're trying to 
+build a new 
+`instance::Instance` 
+consider using one of the 
+following associated 
+functions:
+      instance::Instance::new
+      
+instance::Instance::new_opt
+      instance::Instance::new
+_orphaned
+      instance::Instance::fro
+m_external_dom
+   --> crates\lune-roblox\src
+\instance\mod.rs:62:5
+    |
+ 62 |     pub fn 
+new(dom_ref: DomRef) -> Self 
+{
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^
+...
+ 75 |     pub fn 
+new_opt(dom_ref: DomRef) -> 
+Option<Self> {
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+102 |     pub fn 
+new_orphaned(class_name: 
+impl AsRef<str>) -> Self {
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^
+...
+127 |     pub fn from_externa
+l_dom(external_dom: &mut 
+WeakDom, external_dom_ref: 
+DomRef) -> Self {
+    |     ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^
+    = help: items from 
+traits can only be used if 
+the trait is implemented and 
+in scope
+    = note: the following 
+trait defines an item 
+`from_lua`, perhaps you need 
+to implement it:
+            candidate #1: 
+`mlua::FromLua`
+help: there is an associated 
+function `from` with a 
+similar name
+   --> /rustc/ed61e7d7e242494
+fb7057f2657300d9e77bb4fcb\lib
+rary\core\src\convert\mod.rs:
+592:5
+
+error[E0624]: method `lock` 
+is private
+    --> crates\lune-roblox\sr
+c\globals.rs:189:33
+     |
+ 189 |             let 
+lua_guard = lua.lock();
+     |                       
+          ^^^^ private method
+     |
+    ::: C:\Users\Arch\Downloa
+ds\lune-main\lune-main\mlua-m
+ain\src\state.rs:2230:5
+     |
+2230 |     pub(crate) fn 
+lock(&self) -> 
+ReentrantMutexGuard<'_, 
+RawLua> {
+     |     ------------------
+-----------------------------
+------------- private method 
+defined here
+
+error[E0616]: field `0` of 
+struct `mlua::Table` is 
+private
+   --> crates\lune-roblox\src
+\globals.rs:191:35
+    |
+191 |             
+lua_guard.push_ref(&t.0);
+    |                        
+           ^ private field
+
+error[E0624]: method `lock` 
+is private
+    --> crates\lune-roblox\sr
+c\globals.rs:210:33
+     |
+ 210 |             let 
+lua_guard = lua.lock();
+     |                       
+          ^^^^ private method
+     |
+    ::: C:\Users\Arch\Downloa
+ds\lune-main\lune-main\mlua-m
+ain\src\state.rs:2230:5
+     |
+2230 |     pub(crate) fn 
+lock(&self) -> 
+ReentrantMutexGuard<'_, 
+RawLua> {
+     |     ------------------
+-----------------------------
+------------- private method 
+defined here
+
+error[E0616]: field `0` of 
+struct `mlua::Table` is 
+private
+   --> crates\lune-roblox\src
+\globals.rs:212:35
+    |
+212 |             
+lua_guard.push_ref(&t.0);
+    |                        
+           ^ private field
+
+warning: unused variable: 
+`dom`
+   --> crates\lune-roblox\src
+\instance\mod.rs:734:13
+    |
+734 |         let dom = INTER
+NAL_DOM.lock().expect("Failed
+ to lock document");
+    |             ^^^ help: 
+if this is intentional, 
+prefix it with an 
+underscore: `_dom`
+    |
+    = note: 
+`#[warn(unused_variables)]` 
+(part of `#[warn(unused)]`) 
+on by default
+
+warning: unused variable: 
+`dom`
+   --> crates\lune-roblox\src
+\instance\mod.rs:741:13
+    |
+741 |         let dom = INTER
+NAL_DOM.lock().expect("Failed
+ to lock document");
+    |             ^^^ help: 
+if this is intentional, 
+prefix it with an 
+underscore: `_dom`
+
+Some errors have detailed 
+explanations: E0423, E0599, 
+E0616, E0624.
+For more information about 
+an error, try `rustc 
+--explain E0423`.
+warning: `lune-roblox` (lib) 
+generated 2 warnings
+error: could not compile 
+`lune-roblox` (lib) due to 9 
+previous errors; 2 warnings 
+emitted
