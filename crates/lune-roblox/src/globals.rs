@@ -243,19 +243,34 @@ fn create_setreadonly(lua: &Lua) -> LuaResult<LuaFunction> {
 
 // Debug functions placeholders
 fn create_debug_getconstant(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|_, (_f, _idx): (LuaFunction, usize)| { Ok(LuaValue::Nil) })
+     lua.create_function(|lua, (f, idx): (LuaFunction, usize)| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.get_function_constant(&f, idx)
+     })
 }
 fn create_debug_getconstants(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|lua, _f: LuaFunction| { Ok(lua.create_table()?) })
+     lua.create_function(|lua, f: LuaFunction| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.get_function_constants(&f)
+     })
 }
 fn create_debug_getproto(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|_, (_f, _idx, _act): (LuaFunction, usize, Option<bool>)| { Ok(LuaValue::Nil) })
+     lua.create_function(|lua, (f, idx, act): (LuaFunction, usize, Option<bool>)| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.get_function_proto(&f, idx, act.unwrap_or(false))
+     })
 }
 fn create_debug_getprotos(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|lua, _f: LuaFunction| { Ok(lua.create_table()?) })
+     lua.create_function(|lua, f: LuaFunction| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.get_function_protos(&f)
+     })
 }
 fn create_debug_getstack(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|_, (_lvl, _idx): (usize, Option<usize>)| { Ok(LuaValue::Nil) })
+     lua.create_function(|lua, (lvl, idx): (usize, Option<usize>)| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.get_stack_value(lvl, idx.unwrap_or(1))
+     })
 }
 fn create_debug_getupvalue(lua: &Lua) -> LuaResult<LuaFunction> {
      lua.create_function(|lua, (f, idx): (LuaFunction, i32)| { 
@@ -284,10 +299,16 @@ fn create_debug_getupvalues(lua: &Lua) -> LuaResult<LuaFunction> {
      })
 }
 fn create_debug_setconstant(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|_, (_f, _idx, _val): (LuaFunction, usize, LuaValue)| { Ok(()) })
+     lua.create_function(|lua, (f, idx, val): (LuaFunction, usize, LuaValue)| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.set_function_constant(&f, idx, val)
+     })
 }
 fn create_debug_setstack(lua: &Lua) -> LuaResult<LuaFunction> {
-     lua.create_function(|_, (_lvl, _idx, _val): (usize, usize, LuaValue)| { Ok(()) })
+     lua.create_function(|lua, (lvl, idx, val): (usize, usize, LuaValue)| {
+         use mlua::function_api::LuaFunctionExt;
+         lua.set_stack_value(lvl, idx, val)
+     })
 }
 fn create_debug_setupvalue(lua: &Lua) -> LuaResult<LuaFunction> {
      lua.create_function(|lua, (f, idx, val): (LuaFunction, i32, LuaValue)| { 

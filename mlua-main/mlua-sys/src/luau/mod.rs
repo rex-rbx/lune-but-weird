@@ -7,6 +7,7 @@ pub use luacode::*;
 pub use luacodegen::*;
 pub use lualib::*;
 pub use luarequire::*;
+pub use luadebugext::*;
 
 pub mod compat;
 pub mod lauxlib;
@@ -15,3 +16,4 @@ pub mod luacode;
 pub mod luacodegen;
 pub mod lualib;
 pub mod luarequire;
+pub mod luadebugext;

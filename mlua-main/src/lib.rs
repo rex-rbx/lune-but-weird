@@ -98,6 +98,7 @@ mod vector;
 pub mod prelude;
 pub mod debug_api;
 pub mod gc_api;
+pub mod function_api;
 
 pub use bstr::BString;
 pub use ffi::{self, lua_CFunction, lua_State};
