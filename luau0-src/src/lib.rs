@@ -227,14 +227,28 @@ impl Build {
             .clone()
             .include(&vm_include_dir)
             .add_files_by_ext_sorted(&vm_source_dir, "cpp")
-            .file(vm_source_dir.join("luadebugext.c"))  // Add our custom debug extension
             .out_dir(&build_dir)
             .compile(vm_lib_name);
+
+        // Build our custom debug extension as C (not C++)
+        let debugext_lib_name = "luaudebugext";
+        cc::Build::new()
+            .warnings(false)
+            .cargo_metadata(false)
+            .file(vm_source_dir.join("luadebugext.c"))
+            .include(&common_include_dir)
+            .include(&vm_include_dir)
+            .define("LUAI_MAXCSTACK", &*self.max_cstack_size.to_string())
+            .define("LUA_VECTOR_SIZE", &*self.vector_size.to_string())
+            .define("LUA_API", "extern \"C\"")
+            .out_dir(&build_dir)
+            .compile(debugext_lib_name);
 
         let mut artifacts = Artifacts {
             lib_dir: build_dir,
             libs: vec![
                 vm_lib_name.to_string(),
+                debugext_lib_name.to_string(),
                 compiler_lib_name.to_string(),
                 ast_lib_name.to_string(),
                 common_lib_name.to_string(),

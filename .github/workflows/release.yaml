@@ -10,13 +10,13 @@ defaults:
 
 jobs:
   init:
-    runs-on: windows-2022
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
   dry-run:
     needs: ["init"]
-    runs-on: windows-2022
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -29,19 +29,17 @@ jobs:
       matrix:
         include:
           - name: Windows x86_64
+            runner-os: windows-2022
             artifact-name: lune-windows-x86_64
             cargo-target: x86_64-pc-windows-msvc
-          - name: Windows aarch64
-            artifact-name: lune-windows-aarch64
-            cargo-target: aarch64-pc-windows-msvc
     runs-on: ${{ matrix.runner-os }}
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.cargo-target }}
-      - run: cargo build --locked --all-features --release --target ${{ matrix.cargo-target }}
-      - run: ./scripts/zip-release.sh ${{ matrix.cargo-target }}
+      - run: cargo build --all-features --release --target ${{ matrix.cargo-target }}
+      - run: bash ./scripts/zip-release.sh ${{ matrix.cargo-target }}
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}
@@ -49,13 +47,13 @@ jobs:
 
   release-github:
     needs: ["build"]
-    runs-on: windows-2022
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: ./releases
-      - run: ./scripts/unpack-releases.sh "./releases"
+      - run: bash ./scripts/unpack-releases.sh "./releases"
       - uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
